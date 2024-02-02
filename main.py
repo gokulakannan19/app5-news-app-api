@@ -1,17 +1,24 @@
+import os
+
 import requests
 from send_email import send_email
-from datetime import datetime
+from datetime import datetime, timedelta
+from dotenv import load_dotenv
 
-api_key = "7ab04be9c08a40c398cb38465379f129"
+load_dotenv()
+# Get yesterday date
+yesterday = datetime.now().date() - timedelta(1)
+date = yesterday.strftime("%Y-%d-%m")
+
+# Api and url
+api_key = os.environ["news_app_api_key"]
 url = f"https://newsapi.org/v2/everything?q" \
-       f"=tesla&from=2023-12-15&sortBy=publishedAt&apiKey={api_key}"
+       f"=tesla&from=2024-01-02&sortBy=publishedAt&apiKey={api_key}"
 
 request = requests.get(url)
-print(request)
-
 content = request.json()
-print(content)
 
+# Email Subject and Message
 message = f"""\
 Subject: News api Email
 
